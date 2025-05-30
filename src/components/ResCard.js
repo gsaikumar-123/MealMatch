@@ -1,23 +1,19 @@
-import React from 'react'
-import { useEffect } from 'react'
+import React from 'react';
 
-const ResCard = () => {
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch("https://www.swiggy.com/city/hyderabad/theobroma-banjara-hills-rest378344");
-            const json = await response.json();
-            console.log(json);
-        }
-        fetchData();
-    }, []);
-  
-  
-  
-    return (
-    <div className='rescard-container'>
-      
+const ResCard = ({ name, cloudinaryImageId, costForTwo, cuisines, avgRating, veg }) => {
+  return (
+    <div className="rescard-container">
+      <img
+        src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + cloudinaryImageId}
+        alt={name}
+        className="rescard-img"
+      />
+      <p>{name}</p>
+      <p>{cuisines.join(", ")}</p>
+      <p>{costForTwo}</p>
+      <p>{avgRating}</p>
     </div>
-  )
-}
+  );
+};
 
-export default ResCard
+export default ResCard;

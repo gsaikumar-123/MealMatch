@@ -1,4 +1,4 @@
-mockData = [
+const mockData = [
     {
         "name": "Hai Tiffin's",
         "cloudinaryImageId": "rdvbjt0bpk7kilwmkfv1",
