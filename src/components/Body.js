@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ResCard from './ResCard';
+import Shimmer from './Shimmer';
 
 const Body = () => {
   const [resList, setResList] = useState([]);
@@ -51,10 +52,15 @@ const Body = () => {
             }}> Search</button>
 
         </div>
-            <div className="body-container">
-            {filterResList && filterResList.map((res) => (
+
+        <div className="body-container">
+            {resList.length === 0 ? (
+                <Shimmer />
+            ) : (
+                filterResList.map((res) => (
                 <ResCard key={res.info.id} {...res.info} />
-            ))}
+                ))
+            )}
         </div>
     </div>
   );
