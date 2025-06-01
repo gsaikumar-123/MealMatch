@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ResCard from './ResCard';
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
+import useOnlineStatus from '../utils/useOnlineStatus';
 
 const Body = () => {
   const [resList, setResList] = useState([]);
@@ -21,6 +22,10 @@ const Body = () => {
     };
     fetchData();
     },[]);
+
+    const onlineStatus = useOnlineStatus();
+
+    if(!onlineStatus) return <h1>Ooops!!! Check your Internet Connection</h1>;
   
   return (
     <div>
