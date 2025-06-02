@@ -21,27 +21,27 @@ const ResMenuCard = () => {
   )?.card?.card?.itemCards;
 
   if (!cardInfo || !itemCards) {
-    return <p>No menu data available.</p>;
+    return <p className="text-center text-gray-500">No menu data available.</p>;
   }
 
   const { name, avgRating, costForTwoMessage, cuisines } = cardInfo;
 
   return (
-    <div>
-      <h1>{name}</h1>
-      <p><strong>Rating:</strong> {avgRating}</p>
-      <p><strong>Cuisines:</strong> {cuisines?.join(", ")}</p>
-      <p><strong>Cost for Two:</strong> {costForTwoMessage}</p>
+    <div className="max-w-3xl mx-auto p-6">
+      <h1 className="text-3xl font-bold text-slate-800 mb-2">{name}</h1>
+      <p className="text-lg text-gray-700">⭐ {avgRating}</p>
+      <p className="text-gray-600">{cuisines?.join(", ")}</p>
+      <p className="text-gray-600 mb-4">{costForTwoMessage}</p>
 
-      <h2>Menu</h2>
-      <ul>
+      <h2 className="text-2xl font-semibold text-slate-700 mb-3">Menu</h2>
+      <ul className="space-y-2">
         {itemCards.map((item) => {
           const info = item.card.info;
           const price = (info.price || info.defaultPrice || 0) / 100;
 
           return (
-            <li key={info.id}>
-              {info.name} - ₹{price}
+            <li key={info.id} className="p-3 bg-gray-100 rounded-lg shadow-sm">
+              {info.name}-₹{price}
             </li>
           );
         })}
