@@ -1,6 +1,7 @@
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestrauntMenu from "../utils/useRestrauntMenu";
+import ResCategory from "./ResCategory";
 
 const ResMenuCard = () => {
   const { resId } = useParams();
@@ -8,17 +9,15 @@ const ResMenuCard = () => {
 
   if (resInfo === null) return <Shimmer />;
 
-  const cardInfo = resInfo?.data?.cards?.find(
-    (card) => card?.card?.card?.info
-  )?.card?.card?.info;
+  const cardInfo = resInfo?.data?.cards[2]?.card?.card?.info;
 
-  const groupedCards = resInfo?.data?.cards?.find(
-    (card) => card?.groupedCard
-  )?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+  const itemCards = resInfo.data.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
+    .find(c => c.card?.card?.itemCards)?.card?.card?.itemCards;
 
-  const itemCards = groupedCards?.find(
-    (c) => c?.card?.card?.itemCards
-  )?.card?.card?.itemCards;
+  const categories = resInfo.data.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
+    .filter(c => c.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
+
+  console.log(categories);
 
   if (!cardInfo || !itemCards) {
     return <p className="text-center text-gray-500">No menu data available.</p>;
@@ -34,17 +33,12 @@ const ResMenuCard = () => {
       <p className="text-gray-600 mb-4">{costForTwoMessage}</p>
 
       <h2 className="text-2xl font-semibold text-slate-700 mb-3">Menu</h2>
-      <ul className="space-y-2">
-        {itemCards.map((item) => {
-          const info = item.card.info;
-          const price = (info.price || info.defaultPrice || 0) / 100;
-
-          return (
-            <li key={info.id} className="p-3 bg-gray-100 rounded-lg shadow-sm">
-              {info.name}-₹{price}
-            </li>
-          );
-        })}
+      <ul className="space-y-4">
+        {categories.map((category) => (
+          <li key={category.card?.card?.title}>
+            <ResCategory data={category} />
+          </li>
+        ))}
       </ul>
     </div>
   );

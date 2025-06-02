@@ -16,4 +16,16 @@ const ResCard = ({ name, cloudinaryImageId, costForTwo, cuisines, avgRating }) =
   );
 };
 
+
+export const withVegLabel=(ResCard)=>{
+  return(props) => {
+    return (
+      <div>
+        <label className='absolute m-2 p-2 bg-green-500 rounded-b-md'>Veg</label>
+        <ResCard {...props}/>
+      </div>
+    )
+  }
+}
+
 export default ResCard;

@@ -3,11 +3,14 @@ import ResCard from './ResCard';
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStatus';
+import { withVegLabel } from './ResCard';
 
 const Body = () => {
   const [resList, setResList] = useState([]);
   const [filterResList, setFilterResList] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const WithVeg = withVegLabel(ResCard);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,15 +40,6 @@ const Body = () => {
             Top-Rated
           </button>
 
-          <button
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl"
-            onClick={() => {
-              const vegRes = resList.filter((res) => res.info?.veg === true);
-              setFilterResList(vegRes);
-            }}
-          >
-            Veg
-          </button>
         </div>
 
         <div className="flex gap-2 w-full md:w-auto">
@@ -74,7 +68,7 @@ const Body = () => {
         ) : (
           filterResList.map((res) => (
             <Link key={res.info.id} to={`/restaurant/${res.info.id}`}>
-              <ResCard {...res.info} />
+                {res.info.veg ? (<WithVeg {...res.info}/>) : (<ResCard {...res.info} />)}
             </Link>
           ))
         )}
