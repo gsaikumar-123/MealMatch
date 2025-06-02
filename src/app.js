@@ -1,50 +1,67 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import ResMenuCard from "./components/ResMenuCard";
-import { createBrowserRouter,RouterProvider,Outlet} from "react-router-dom";
+import UserContext from "./utils/UserContext";
+
+const About = lazy(() => import("./components/About"));
 
 const App = () => {
-  return (
-    <div className="app">
-      <Header />
-      <Outlet/>
-      <Footer />
-    </div>
-  );
-}
+  const [userName, setUserName] = useState("");
 
-const About = lazy(()=>import ("./components/About"));
+  useEffect(() => {
+    const data = {
+      name: "Sai Kumar",
+    };
+    setUserName(data.name);
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+      <div className="app">
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
+    </UserContext.Provider>
+  );
+};
 
 const appRouter = createBrowserRouter([
   {
-    path:"/",
-    element : <App/>,
-    errorElement : <Error/>,
-    children : [
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    children: [
       {
-        path : "/",
-        element : <Body/>
+        path: "/",
+        element: <Body />,
       },
       {
-        path:"/about",
-        element : <Suspense fallback={<h1>Loading.......</h1>}><About/></Suspense>
+        path: "/about",
+        element: (
+          <Suspense fallback={<h1 className="text-center mt-10 text-lg">Loading.......</h1>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
-        path:"/contact",
-        element : <Contact/>
+        path: "/contact",
+        element: <Contact />,
       },
       {
-        path:"restaurant/:resId",
-        element:<ResMenuCard/>
-      }
-    ]
+        path: "/restaurant/:resId",
+        element: <ResMenuCard />,
+      },
+    ],
   },
-])
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router = {appRouter}/>);
+root.render(<RouterProvider router={appRouter} />);

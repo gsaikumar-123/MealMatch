@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import UserContext from '../utils/UserContext';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState("Login");
+  const {loggedInUser} = useContext(UserContext);
 
   return (
     <header className="flex flex-col md:flex-row items-center justify-between px-6 py-4 bg-white shadow-md">
@@ -15,6 +17,7 @@ const Header = () => {
         <Link className='text-gray-600 hover:text-purple-600 transition' to="/about">About</Link>
         <Link className='text-gray-600 hover:text-purple-600 transition' to="/contact">Contact</Link>
         <span className='text-gray-600'>Cart</span>
+        <li className='px-2 font-bold'>{loggedInUser}</li>
         <button
           className='bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl'
           onClick={() => setIsLoggedIn(isLoggedIn === "Login" ? "Logout" : "Login")}
