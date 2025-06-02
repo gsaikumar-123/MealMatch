@@ -2,10 +2,15 @@ import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 import useRestrauntMenu from "../utils/useRestrauntMenu";
 import ResCategory from "./ResCategory";
+import { useState } from "react";
 
 const ResMenuCard = () => {
   const { resId } = useParams();
   const resInfo = useRestrauntMenu(resId);
+
+  const [showItems,setShowItems] = useState(0);
+  const [showIndex,setShowIndex] = useState(0);
+
 
   if (resInfo === null) return <Shimmer />;
 
@@ -17,7 +22,6 @@ const ResMenuCard = () => {
   const categories = resInfo.data.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards
     .filter(c => c.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
 
-  console.log(categories);
 
   if (!cardInfo || !itemCards) {
     return <p className="text-center text-gray-500">No menu data available.</p>;
@@ -34,9 +38,14 @@ const ResMenuCard = () => {
 
       <h2 className="text-2xl font-semibold text-slate-700 mb-3">Menu</h2>
       <ul className="space-y-4">
-        {categories.map((category) => (
+        {categories.map((category,index) => (
           <li key={category.card?.card?.title}>
-            <ResCategory data={category} />
+            {/* controlled component */}
+            <ResCategory 
+            data={category} 
+            showItems = {index === showIndex? true : false} // Lifting State Up
+            setShowIndex = {()=>{setShowIndex(index)}}
+            />
           </li>
         ))}
       </ul>

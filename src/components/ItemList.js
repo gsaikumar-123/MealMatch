@@ -1,4 +1,5 @@
 import React from 'react';
+import { IMG_URL } from '../utils/constants';
 
 const ItemList = ({ cards }) => {
   return (
@@ -16,7 +17,7 @@ const ItemList = ({ cards }) => {
               <div className="w-3/12">
                 <img
                   className="w-full h-24 object-cover rounded"
-                  src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${info.imageId}`}
+                  src={IMG_URL + info.imageId}
                   alt={info.name}
                 />
               </div>

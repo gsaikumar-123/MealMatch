@@ -1,10 +1,11 @@
 import React from 'react';
+import { IMG_URL } from '../utils/constants';
 
 const ResCard = ({ name, cloudinaryImageId, costForTwo, cuisines, avgRating }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 transition-transform hover:scale-105">
       <img
-        src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`}
+        src={IMG_URL + cloudinaryImageId}
         alt={name}
         className="rounded-lg w-full h-40 object-cover mb-4"
       />
